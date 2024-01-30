@@ -10,7 +10,7 @@ public class Main {
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		
 		int N = Integer.parseInt(br.readLine());
-		int[] sw = new int[N+1];	// 스위치는 1번부터이므로 N+1개 배열 생성
+		int[] sw = new int[N+1];
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i = 1; i <= N; i++) {
@@ -20,13 +20,13 @@ public class Main {
 		int S = Integer.parseInt(br.readLine());
 		for(int i = 0; i < S; i++) {
 			st = new StringTokenizer(br.readLine());
-			int gender = Integer.parseInt(st.nextToken());	// 성별
-			int num = Integer.parseInt(st.nextToken());		// 받은 수
+			int gender = Integer.parseInt(st.nextToken());	
+			int num = Integer.parseInt(st.nextToken());
 			
 			if(gender == 1) {	// 남학생
 				int count = 1;
 				while(num * count <= N) {	// 스위치 개수 전까지 반복
-					sw[num * count] ^= 1;	// 받은 수의 배수를 인덱스로 활용하여 접근, XOR 연산으로 스위치 토글
+					sw[num * count] = sw[num * count] == 1 ? 0 : 1;	// 받은 수의 배수를 인덱스로 활용하여 접근, XOR 연산으로 스위치 토글
 					count++;
 				}
 			} else {	// 여학생
@@ -40,7 +40,7 @@ public class Main {
 				start++; end--;	// 좌우 대칭이 아니기 바로 전 상태는 좌우 대칭
 				
 				for(int j = start; j <= end; j++) {
-					sw[j] ^= 1;	// XOR 연산으로 스위치 토글
+					sw[j] = sw[j] == 1 ? 0 : 1;	// XOR 연산으로 스위치 토글
 				}
 			}
 		}
