@@ -1,57 +1,59 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
 public class Main {
-	public static void main(String[] args) throws Exception {
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		
-		int N = Integer.parseInt(br.readLine());
-		int[] sw = new int[N+1];
-		
+		//입력 : n - 스위치 개수 , 스위치 상태, 학생 수, 학생 성별 + 스위치번호
+		int n = Integer.parseInt(br.readLine());
+		int[] switches = new int[n + 1];
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		for(int i = 1; i <= N; i++) {
-			sw[i] = Integer.parseInt(st.nextToken());
+		for(int i = 1; i <= n; i++) {
+			switches[i] = Integer.parseInt(st.nextToken());
 		}
-		
-		int S = Integer.parseInt(br.readLine());
-		for(int i = 0; i < S; i++) {
+		int student = Integer.parseInt(br.readLine());
+		for(int i = 0; i < student; i++) {
 			st = new StringTokenizer(br.readLine());
-			int gender = Integer.parseInt(st.nextToken());	
+			int gender = Integer.parseInt(st.nextToken());
 			int num = Integer.parseInt(st.nextToken());
-			
-			if(gender == 1) {	// 남학생
-				int count = 1;
-				while(num * count <= N) {	// 스위치 개수 전까지 반복
-					sw[num * count] = sw[num * count] == 1 ? 0 : 1;	// 받은 수의 배수를 인덱스로 활용하여 접근, XOR 연산으로 스위치 토글
-					count++;
+			if(gender == 1) {
+				//학생 성별 1
+				//스위치 개수 맞춰서 인덱스 배수들 스위치 모두 바꾸기
+				for(int j = num; j <= n; j += num) {
+					switches[j] = switches[j] == 1 ? 0 : 1;
 				}
-			} else {	// 여학생
-				int start = num-1;
-				int end = num+1;
-				while(start >=1 && end <=N) {	// 스위치 범위 안에서 반복
-					if(sw[start] != sw[end]) break;	// 좌우 대칭 아니면 탈출					
-					start--;
-					end++;
-				}
-				start++; end--;	// 좌우 대칭이 아니기 바로 전 상태는 좌우 대칭
+			}
+			else if(gender == 2) {
+				//학생 성별 2
+				//해당 스위치 인덱스 i - 1 / i + 1 비교 
+				//-> i - j / i + j 값이 다를때까지 두개 비교해서 i-j ~ i+j
+				int start = num - 1;
+				int end = num + 1;
 				
-				for(int j = start; j <= end; j++) {
-					sw[j] = sw[j] == 1 ? 0 : 1;	// XOR 연산으로 스위치 토글
+				while(1 <= start && end <= n) {
+					if(switches[start] != switches[end]) break;
+					else {
+						start--;
+						end++;
+					}
 				}
+				start++;
+				end--;
+				for(int j = start; j <= end; j++) {
+					switches[j] = switches[j] == 1 ? 0 : 1;
+				}
+				
 			}
 		}
-		for(int i = 1; i<=N; i++) {
-			bw.write(sw[i] + " ");
-			if(i % 20 == 0) {	// 한 줄에 20개씩 출력
-				bw.newLine();	
-			}
-		}	
-		bw.flush();
-		bw.close();
-		br.close();
+		//출력 : 스위치 한줄에 20개씩 한칸씩 띄고 출력
+		for(int i = 1; i <= n; i++) {
+			System.out.print(switches[i] + " ");
+			if(i % 20 == 0) System.out.println();
+		}
+
 	}
+
 }
