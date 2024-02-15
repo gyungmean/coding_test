@@ -1,38 +1,47 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Scanner;
+import java.util.StringTokenizer;
+
 public class Main {
-  public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in);
-    int N = sc.nextInt();
-    int[] A = new int[N];
-    for (int i = 0; i < N; i++) {
-      A[i] = sc.nextInt();
-    }
-    Arrays.sort(A);
-    int M = sc.nextInt();
-    for (int i = 0; i < M; i++) {
-      boolean find = false;
-      int target = sc.nextInt();
-      // 이진 탐색 시작
-      int start = 0;
-      int end = A.length - 1;
-      while (start <= end) {
-        int midi = (start + end) / 2;
-        int midV = A[midi];
-        if (midV > target) {
-          end = midi - 1;
-        } else if (midV < target) {
-          start = midi + 1;
-        } else {
-          find = true;
-          break;
-        }
-      }
-      if (find) {
-        System.out.println(1);
-      } else {
-        System.out.println(0);
-      }
-    }
-  }
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		int N = Integer.parseInt(br.readLine());
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int[] input = new int[N];
+		for(int i = 0; i < N; i++) {
+			input[i] = Integer.parseInt(st.nextToken());
+		}
+		int M = Integer.parseInt(br.readLine());
+		st = new StringTokenizer(br.readLine());
+		Arrays.sort(input);
+		for(int i = 0; i < M; i++) {
+			boolean flag = false;
+			int target = Integer.parseInt(st.nextToken());
+			int start = 0;
+			int end = N - 1;
+			while(start <= end) {
+				int mid = (start + end) / 2;
+				int midValue = input[mid];
+				if(midValue == target) {
+					flag = true;
+					sb.append("1").append("\n");
+					break;
+				}
+				else if(midValue > target) {
+					end = --mid;
+					continue;
+				}
+				else if(midValue < target) {
+					start = ++mid;
+					continue;
+				}
+			}
+			if(!flag) sb.append("0").append("\n");
+		}
+		System.out.println(sb);
+
+	}
 }
