@@ -68,6 +68,7 @@ public class Main {
 					if(dist[next] > dist[now.idx] + 1) {
 						dist[next] = dist[now.idx] + 1;
 						pq.add(new Node(next, dist[next]));
+						visited[next] = true;
 					}
 				}
 			}
