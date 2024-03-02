@@ -3,25 +3,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	static class Node implements Comparable<Node>{
-		int idx;
-		int value;
-		public Node(int idx, int value) {
-			super();
-			this.idx = idx;
-			this.value = value;
-		}
-		@Override
-		public int compareTo(Node o) {
-			return this.value - o.value;
-		}
-	}
 	static List<Integer>[] graph;
 	static int[] dist;
 	static boolean[] visited;
@@ -57,17 +45,17 @@ public class Main {
 	}
 	
 	static void dijkstra(int start) {
-		PriorityQueue<Node> pq = new PriorityQueue<>();
-		pq.add(new Node(start, 0));
+		Queue<Integer> pq = new LinkedList<>();
+		pq.add(start);
 		visited[start] = true;
 		dist[start] = 0;
 		while(!pq.isEmpty()) {
-			Node now = pq.poll();
-			for(int next : graph[now.idx]) {
+			int now = pq.poll();
+			for(int next : graph[now]) {
 				if(!visited[next]) {
-					if(dist[next] > dist[now.idx] + 1) {
-						dist[next] = dist[now.idx] + 1;
-						pq.add(new Node(next, dist[next]));
+					if(dist[next] > dist[now] + 1) {
+						dist[next] = dist[now] + 1;
+						pq.add(next);
 						visited[next] = true;
 					}
 				}
