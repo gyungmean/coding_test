@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 public class Main {
 
 	static int N, M;
-	static int[] inCount, outCount;
+	static int[] inCount;
 	static List<Node>[] graph, reverseGraph;
 	static int startCity, endCity;
 	static int[] sumTime;
@@ -21,7 +21,6 @@ public class Main {
 		M = Integer.parseInt(br.readLine());
 		
 		inCount = new int[N + 1]; //진입차수
-		outCount = new int[N + 1]; //진출차수
 		graph = new ArrayList[N + 1];
 		reverseGraph = new ArrayList[N + 1];
 		for(int i = 1; i <= N; i++) {
@@ -35,7 +34,6 @@ public class Main {
 			int start = Integer.parseInt(st.nextToken());
 			int end = Integer.parseInt(st.nextToken());
 			int time = Integer.parseInt(st.nextToken());
-			outCount[start]++;
 			inCount[end]++;
 			graph[start].add(new Node(end, time));
 			reverseGraph[end].add(new Node(start, time));
