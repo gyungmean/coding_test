@@ -6,7 +6,6 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-	//금 100 은 10 동 1
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -22,10 +21,7 @@ public class Main {
 			int silver = Integer.parseInt(st.nextToken());
 			int bronze = Integer.parseInt(st.nextToken());
 			
-			int score = gold * 100 + silver * 10 + bronze * 1;
-			
-			
-			infoList[i] = new Info(nation, score);
+			infoList[i] = new Info(nation, gold, silver, bronze);
 		}
 		
 		Arrays.sort(infoList);
@@ -34,35 +30,46 @@ public class Main {
 		rank[infoList[0].nation] = 1;
 		int nowRank = 1;
 		int nextRank = 2;
-		int preScore = infoList[0].score;
+		Info preInfo = infoList[0];
 		for(int i = 1; i < n; i++) {
-			if(preScore == infoList[i].score) {
+			if(infoList[i].gold == preInfo.gold &&
+					infoList[i].silver == preInfo.silver &&
+					infoList[i].bronze == preInfo.bronze) {
 				rank[infoList[i].nation] = nowRank;
 				nextRank++;
 			}
 			else {
 				rank[infoList[i].nation] = nextRank;
 				nowRank = nextRank++;
-				preScore = infoList[i].score;
+				preInfo = infoList[i];
 			}
 		}
 		System.out.println(rank[k]);
-		
-
 	}
-	
 	
 	static class Info implements Comparable<Info>{
 		int nation;
-		int score;
-		public Info(int nation, int score) {
+		int gold;
+		int silver;
+		int bronze;
+		
+		public Info(int nation, int gold, int silver, int bronze) {
 			super();
 			this.nation = nation;
-			this.score = score;
+			this.gold = gold;
+			this.silver = silver;
+			this.bronze = bronze;
 		}
+
 		@Override
 		public int compareTo(Info o) {
-			if(this.score > o.score) {
+			if(this.gold > o.gold) {
+				return -1;
+			}
+			else if(this.gold == o.gold && this.silver > o.silver) {
+				return -1;
+			}
+			else if(this.gold == o.gold && this.silver == o.silver && this.bronze > o.bronze) {
 				return -1;
 			}
 			return 1;
