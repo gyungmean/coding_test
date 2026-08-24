@@ -1,20 +1,18 @@
-import java.io.*;
 import java.util.*;
 
 class Solution {
     public long solution(int n, int[] times) {
         long answer = 0;
         
-        long start = 0;
-        long end = 0;
-        
-        for(int t : times){
-            end = Math.max(end, t);
+        long min = 0;
+        long max = 0;
+        for(int t : times) {
+            max = Math.max(t, max);
         }
-        end *= n;
+        max *= n;
         
-        while(start <= end){
-            long mid = (start + end) / 2;
+        while(min <= max){
+            long mid = (min + max) / 2;
             long cnt = 0;
             
             for(int t : times){
@@ -22,11 +20,11 @@ class Solution {
             }
             
             if(cnt >= n){
-                end = mid - 1;
+                max = mid - 1;
                 answer = mid;
             }
             else{
-                start = mid + 1;
+                min = mid + 1;
             }
         }
         
