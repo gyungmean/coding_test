@@ -1,0 +1,9 @@
+-- 코드를 입력하세요
+SELECT p.ID, p.NAME, tmp.HOST_ID
+FROM PLACES p, (
+    SELECT HOST_ID
+    FROM PLACES
+    GROUP BY HOST_ID
+    HAVING COUNT(ID) >= 2
+) tmp
+WHERE p.HOST_ID = tmp.HOST_ID;
